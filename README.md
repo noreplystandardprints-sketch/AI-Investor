@@ -529,7 +529,7 @@ For commercial licensing inquiries, see `COMMERCIAL_LICENSE.md` or contact the p
 
 To obtain a license (regular or commercial), please contact me directly via my GitHub profile. Regular licenses are typically provided free of charge for non-commercial use.
 
-**GitHub Profile**: [Your GitHub Username](https://github.com/ashtonphillips)
+**GitHub Profile**: Contact me via repository host email account.
 
 ### License Management Features
 
