@@ -525,6 +525,12 @@ or any use that generates commercial benefit.
 
 For commercial licensing inquiries, see `COMMERCIAL_LICENSE.md` or contact the project maintainers.
 
+### How to Request a License
+
+To obtain a license (regular or commercial), please contact me directly via my GitHub profile. Regular licenses are typically provided free of charge for non-commercial use.
+
+**GitHub Profile**: [Your GitHub Username](https://github.com/ashtonphillips)
+
 ### License Management Features
 
 - **Generate Commercial Licenses**: Create a batch of 50 commercial licenses, stored in `commercial_licenses.json` and exported to an Excel file for distribution.
