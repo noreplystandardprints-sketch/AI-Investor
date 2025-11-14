@@ -22,6 +22,10 @@ from collections import defaultdict
 import math
 from typing import Protocol, Optional
 from datetime import datetime
+from license_tracker import (
+    issue_license, verify_license, activate_license, 
+    list_licenses, revoke_license, get_license_status
+)
 
 # Optional IBKR integration via ib_insync
 try:
@@ -1158,6 +1162,63 @@ def _prompt_choice(prompt: str, choices: list[str], default: str):
     return val if val in choices else default
 
 
+# ===== Commercial License Management =====
+
+def handle_license_issue(company_name, contact_email, use_case, expiration_days, max_instances):
+    """Issue a new commercial license."""
+    if not company_name or not contact_email or not use_case:
+        print("Error: --company-name, --contact-email, and --use-case required for issuing license")
+        return
+    license_id, password = issue_license(
+        company_name=company_name,
+        contact_email=contact_email,
+        commercial_use_case=use_case,
+        expiration_days=expiration_days,
+        max_instances=max_instances
+    )
+    print(f"\n🔐 NEW LICENSE CREDENTIALS (share securely via email):")
+    print(f"   License ID: {license_id}")
+    print(f"   Password:   {password}\n")
+
+
+def handle_license_verify(license_id, license_password):
+    """Verify a commercial license."""
+    if not license_id or not license_password:
+        print("Error: --license-id and --license-password required for verification")
+        return
+    is_valid, record = verify_license(license_id, license_password)
+    if is_valid:
+        print(f"✅ License is VALID")
+        print(f"   Company: {record['company_name']}")
+        print(f"   Expires: {record['expiration_date']}")
+    else:
+        print(f"❌ License verification FAILED")
+        if record:
+            print(f"   Status: {record.get('status', 'unknown')}")
+
+
+def handle_license_list():
+    """List all commercial licenses (admin)."""
+    print(list_licenses(show_passwords=False))
+
+
+def handle_license_revoke(license_id):
+    """Revoke a commercial license."""
+    if not license_id:
+        print("Error: --license-id required for revocation")
+        return
+    revoke_license(license_id)
+
+
+def handle_license_status(license_id, license_password):
+    """Check license status."""
+    if not license_id or not license_password:
+        print("Error: --license-id and --license-password required")
+        return
+    status = get_license_status(license_id, license_password)
+    print(status)
+
+
 def parse_cli_args():
     parser = argparse.ArgumentParser(description="Trading Bot UI and actions")
     parser.add_argument("--menu", action="store_true", help="Launch interactive menu UI")
@@ -1187,6 +1248,15 @@ def parse_cli_args():
     parser.add_argument("--ib-client-id", type=int, default=1, help="IBKR client ID")
     parser.add_argument("--ib-exec", action="store_true", help="Execute orders on IBKR paper account for buys/sells")
     parser.add_argument("--broker", choices=["mock", "ibkr"], default="mock", help="Select broker backend: mock (simulation) or ibkr (live)")
+    # Commercial license management options
+    parser.add_argument("--license-action", choices=["issue", "verify", "list", "revoke", "status"], help="Commercial license management action")
+    parser.add_argument("--license-id", type=str, help="Commercial license ID (for verify/status/revoke)")
+    parser.add_argument("--license-password", type=str, help="Commercial license password (for verify/status)")
+    parser.add_argument("--company-name", type=str, help="Company name (for issue)")
+    parser.add_argument("--contact-email", type=str, help="Contact email (for issue)")
+    parser.add_argument("--use-case", type=str, help="Commercial use case description (for issue)")
+    parser.add_argument("--expiration-days", type=int, default=365, help="License expiration in days (default 365)")
+    parser.add_argument("--max-instances", type=int, default=1, help="Max license instances allowed (default 1)")
     return parser.parse_args()
 
 
@@ -2664,6 +2734,34 @@ def do_paper_ai_control(tickers: list[str], poll_interval: float = 5.0, trade_sh
 
 if __name__ == "__main__":
     args = parse_cli_args()
+    
+    # Handle commercial license management (before broker selection)
+    if getattr(args, "license_action", None):
+        action = args.license_action
+        if action == "issue":
+            handle_license_issue(
+                company_name=getattr(args, "company_name", None),
+                contact_email=getattr(args, "contact_email", None),
+                use_case=getattr(args, "use_case", None),
+                expiration_days=getattr(args, "expiration_days", 365),
+                max_instances=getattr(args, "max_instances", 1)
+            )
+        elif action == "verify":
+            handle_license_verify(
+                license_id=getattr(args, "license_id", None),
+                license_password=getattr(args, "license_password", None)
+            )
+        elif action == "list":
+            handle_license_list()
+        elif action == "revoke":
+            handle_license_revoke(license_id=getattr(args, "license_id", None))
+        elif action == "status":
+            handle_license_status(
+                license_id=getattr(args, "license_id", None),
+                license_password=getattr(args, "license_password", None)
+            )
+        sys.exit(0)  # Exit after license action
+    
     # Choose broker according to --broker flag or interactive prompt
     BROKER = select_broker(args)
     if getattr(args, "menu", False):
