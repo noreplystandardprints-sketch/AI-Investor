@@ -1,0 +1,361 @@
+{
+  "licenses": {
+    "REG-C056C8C49BCD": {
+      "license_code": "REG-C056C8C49BCD",
+      "issued_date": "2025-11-14T20:04:37.492435",
+      "expiration_date": "2026-01-03T20:04:37.492692",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-388BF96E3C82": {
+      "license_code": "REG-388BF96E3C82",
+      "issued_date": "2025-11-14T20:06:10.649156",
+      "expiration_date": "2026-01-03T20:06:10.649160",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-FB78CE5B7AEE": {
+      "license_code": "REG-FB78CE5B7AEE",
+      "issued_date": "2025-11-14T20:06:10.649958",
+      "expiration_date": "2026-01-03T20:06:10.649960",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-3C06AB7DD9C8": {
+      "license_code": "REG-3C06AB7DD9C8",
+      "issued_date": "2025-11-14T20:06:10.650190",
+      "expiration_date": "2026-01-03T20:06:10.650191",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-86F8BC2A9EAE": {
+      "license_code": "REG-86F8BC2A9EAE",
+      "issued_date": "2025-11-14T20:06:10.650403",
+      "expiration_date": "2026-01-03T20:06:10.650405",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-D904C21E320C": {
+      "license_code": "REG-D904C21E320C",
+      "issued_date": "2025-11-14T20:06:10.650610",
+      "expiration_date": "2026-01-03T20:06:10.650612",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-0419C23B4DF6": {
+      "license_code": "REG-0419C23B4DF6",
+      "issued_date": "2025-11-14T20:06:10.650812",
+      "expiration_date": "2026-01-03T20:06:10.650814",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-7E2E213B10E6": {
+      "license_code": "REG-7E2E213B10E6",
+      "issued_date": "2025-11-14T20:06:10.651025",
+      "expiration_date": "2026-01-03T20:06:10.651026",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-09E5ECB6710B": {
+      "license_code": "REG-09E5ECB6710B",
+      "issued_date": "2025-11-14T20:06:10.651236",
+      "expiration_date": "2026-01-03T20:06:10.651237",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-08DE7567904F": {
+      "license_code": "REG-08DE7567904F",
+      "issued_date": "2025-11-14T20:06:10.651462",
+      "expiration_date": "2026-01-03T20:06:10.651463",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-539844E32406": {
+      "license_code": "REG-539844E32406",
+      "issued_date": "2025-11-14T20:06:10.651683",
+      "expiration_date": "2026-01-03T20:06:10.651684",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-C47B3A97A3AA": {
+      "license_code": "REG-C47B3A97A3AA",
+      "issued_date": "2025-11-14T20:06:10.651901",
+      "expiration_date": "2026-01-03T20:06:10.651902",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-E752EDE4E23D": {
+      "license_code": "REG-E752EDE4E23D",
+      "issued_date": "2025-11-14T20:06:10.652119",
+      "expiration_date": "2026-01-03T20:06:10.652120",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-EA701C8705D5": {
+      "license_code": "REG-EA701C8705D5",
+      "issued_date": "2025-11-14T20:06:10.652345",
+      "expiration_date": "2026-01-03T20:06:10.652346",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-D574CABDA4CA": {
+      "license_code": "REG-D574CABDA4CA",
+      "issued_date": "2025-11-14T20:06:10.652587",
+      "expiration_date": "2026-01-03T20:06:10.652588",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-AA2E63A424EC": {
+      "license_code": "REG-AA2E63A424EC",
+      "issued_date": "2025-11-14T20:06:10.652828",
+      "expiration_date": "2026-01-03T20:06:10.652829",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-FAD7DD3702F7": {
+      "license_code": "REG-FAD7DD3702F7",
+      "issued_date": "2025-11-14T20:06:10.653073",
+      "expiration_date": "2026-01-03T20:06:10.653074",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-9AA282966167": {
+      "license_code": "REG-9AA282966167",
+      "issued_date": "2025-11-14T20:06:10.653325",
+      "expiration_date": "2026-01-03T20:06:10.653327",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-57D4FA0A9110": {
+      "license_code": "REG-57D4FA0A9110",
+      "issued_date": "2025-11-14T20:06:10.653662",
+      "expiration_date": "2026-01-03T20:06:10.653664",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-A620BB9F90AF": {
+      "license_code": "REG-A620BB9F90AF",
+      "issued_date": "2025-11-14T20:06:10.653972",
+      "expiration_date": "2026-01-03T20:06:10.653973",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-9319406B1AC4": {
+      "license_code": "REG-9319406B1AC4",
+      "issued_date": "2025-11-14T20:06:10.654280",
+      "expiration_date": "2026-01-03T20:06:10.654282",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-BC96B5159734": {
+      "license_code": "REG-BC96B5159734",
+      "issued_date": "2025-11-14T20:06:10.654611",
+      "expiration_date": "2026-01-03T20:06:10.654612",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-F4D17C25DAD2": {
+      "license_code": "REG-F4D17C25DAD2",
+      "issued_date": "2025-11-14T20:06:10.654926",
+      "expiration_date": "2026-01-03T20:06:10.654927",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-327A0560CBD7": {
+      "license_code": "REG-327A0560CBD7",
+      "issued_date": "2025-11-14T20:06:10.655274",
+      "expiration_date": "2026-01-03T20:06:10.655275",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-FD3D19A69741": {
+      "license_code": "REG-FD3D19A69741",
+      "issued_date": "2025-11-14T20:06:10.655606",
+      "expiration_date": "2026-01-03T20:06:10.655607",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-FCA0B5AF636B": {
+      "license_code": "REG-FCA0B5AF636B",
+      "issued_date": "2025-11-14T20:06:10.655945",
+      "expiration_date": "2026-01-03T20:06:10.655947",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-FE51AF5FB47B": {
+      "license_code": "REG-FE51AF5FB47B",
+      "issued_date": "2025-11-14T20:06:10.656302",
+      "expiration_date": "2026-01-03T20:06:10.656303",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-EFCF8CB93ACB": {
+      "license_code": "REG-EFCF8CB93ACB",
+      "issued_date": "2025-11-14T20:06:10.656666",
+      "expiration_date": "2026-01-03T20:06:10.656667",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-C5FD961B96BF": {
+      "license_code": "REG-C5FD961B96BF",
+      "issued_date": "2025-11-14T20:06:10.657022",
+      "expiration_date": "2026-01-03T20:06:10.657024",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-2D329ED666D6": {
+      "license_code": "REG-2D329ED666D6",
+      "issued_date": "2025-11-14T20:06:10.657410",
+      "expiration_date": "2026-01-03T20:06:10.657412",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-46B5686F07CC": {
+      "license_code": "REG-46B5686F07CC",
+      "issued_date": "2025-11-14T20:06:10.657779",
+      "expiration_date": "2026-01-03T20:06:10.657780",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-929BAE8AA0A9": {
+      "license_code": "REG-929BAE8AA0A9",
+      "issued_date": "2025-11-14T20:06:10.658349",
+      "expiration_date": "2026-01-03T20:06:10.658350",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-2A21D49CD580": {
+      "license_code": "REG-2A21D49CD580",
+      "issued_date": "2025-11-14T20:06:10.658731",
+      "expiration_date": "2026-01-03T20:06:10.658732",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-7C852A40F224": {
+      "license_code": "REG-7C852A40F224",
+      "issued_date": "2025-11-14T20:06:10.659102",
+      "expiration_date": "2026-01-03T20:06:10.659103",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-6A5D46F46C5F": {
+      "license_code": "REG-6A5D46F46C5F",
+      "issued_date": "2025-11-14T20:06:10.659608",
+      "expiration_date": "2026-01-03T20:06:10.659611",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-47FF7264482F": {
+      "license_code": "REG-47FF7264482F",
+      "issued_date": "2025-11-14T20:06:10.660071",
+      "expiration_date": "2026-01-03T20:06:10.660073",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-06B6D493ACB7": {
+      "license_code": "REG-06B6D493ACB7",
+      "issued_date": "2025-11-14T20:06:10.660489",
+      "expiration_date": "2026-01-03T20:06:10.660491",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-7615ABA80531": {
+      "license_code": "REG-7615ABA80531",
+      "issued_date": "2025-11-14T20:06:10.660891",
+      "expiration_date": "2026-01-03T20:06:10.660893",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-EEB04D939632": {
+      "license_code": "REG-EEB04D939632",
+      "issued_date": "2025-11-14T20:06:10.661310",
+      "expiration_date": "2026-01-03T20:06:10.661312",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-7A1E6514BDFE": {
+      "license_code": "REG-7A1E6514BDFE",
+      "issued_date": "2025-11-14T20:06:10.661717",
+      "expiration_date": "2026-01-03T20:06:10.661718",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-C757B5A21E09": {
+      "license_code": "REG-C757B5A21E09",
+      "issued_date": "2025-11-14T20:06:10.662112",
+      "expiration_date": "2026-01-03T20:06:10.662113",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-0F770018B84F": {
+      "license_code": "REG-0F770018B84F",
+      "issued_date": "2025-11-14T20:06:10.662505",
+      "expiration_date": "2026-01-03T20:06:10.662506",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-E731784D8FBC": {
+      "license_code": "REG-E731784D8FBC",
+      "issued_date": "2025-11-14T20:06:10.662906",
+      "expiration_date": "2026-01-03T20:06:10.662908",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-DD431971B4EE": {
+      "license_code": "REG-DD431971B4EE",
+      "issued_date": "2025-11-14T20:06:10.663326",
+      "expiration_date": "2026-01-03T20:06:10.663327",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-D492F5D84581": {
+      "license_code": "REG-D492F5D84581",
+      "issued_date": "2025-11-14T20:06:10.663749",
+      "expiration_date": "2026-01-03T20:06:10.663750",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-B578452CF499": {
+      "license_code": "REG-B578452CF499",
+      "issued_date": "2025-11-14T20:06:10.664165",
+      "expiration_date": "2026-01-03T20:06:10.664166",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-A1486744347F": {
+      "license_code": "REG-A1486744347F",
+      "issued_date": "2025-11-14T20:06:10.664627",
+      "expiration_date": "2026-01-03T20:06:10.664628",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-85F0F466C504": {
+      "license_code": "REG-85F0F466C504",
+      "issued_date": "2025-11-14T20:06:10.665076",
+      "expiration_date": "2026-01-03T20:06:10.665078",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-7C1D489A8D68": {
+      "license_code": "REG-7C1D489A8D68",
+      "issued_date": "2025-11-14T20:06:10.665517",
+      "expiration_date": "2026-01-03T20:06:10.665518",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-703DF30D16BB": {
+      "license_code": "REG-703DF30D16BB",
+      "issued_date": "2025-11-14T20:06:10.665953",
+      "expiration_date": "2026-01-03T20:06:10.665954",
+      "status": "active",
+      "license_type": "regular"
+    },
+    "REG-F448339FC677": {
+      "license_code": "REG-F448339FC677",
+      "issued_date": "2025-11-14T20:06:10.666394",
+      "expiration_date": "2026-01-03T20:06:10.666395",
+      "status": "active",
+      "license_type": "regular"
+    }
+  }
+}

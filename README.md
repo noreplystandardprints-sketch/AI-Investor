@@ -127,7 +127,9 @@ Menu options:
 6. Trade permissions
 7. IBKR settings
 8. IBKR AI bot
-9. Exit
+9. Generate Commercial Licenses
+10. Generate Regular Licenses
+11. Exit
 
 ### 2. Paper Trading Demo
 ```bash
@@ -501,7 +503,7 @@ Contributions welcome! Areas for enhancement:
 
 AI-Investor is available under a **dual-licensing model**:
 
-#### 1. CC BY-NC 4.0 (Free License)
+#### 1. Regular License (Free for non-commercial use)
 
 This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International
 license (CC BY-NC 4.0) for non-commercial use. You are free to share and adapt the material provided you give appropriate
@@ -516,12 +518,18 @@ https://creativecommons.org/licenses/by-nc/4.0/
 
 #### 2. Commercial License (Paid)
 
-To use AI-Investor for **commercial purposes**, you must purchase a commercial license.
+To use AI-Investor for **commercial purposes**, you must purchase a commercial license. Commercial licenses are issued with a unique license code and can be verified within the application.
 
 **Commercial use includes**: trading with revenue intent, selling services/products that incorporate AI-Investor,
 or any use that generates commercial benefit.
 
 For commercial licensing inquiries, see `COMMERCIAL_LICENSE.md` or contact the project maintainers.
+
+### License Management Features
+
+- **Generate Commercial Licenses**: Create a batch of 50 commercial licenses, stored in `commercial_licenses.json` and exported to an Excel file for distribution.
+- **Issue Regular License**: Generate a new regular license for non-commercial use with a 50-day expiration.
+- **Verify License**: Verify both commercial and regular licenses within the application.
 
 ### Why Dual-Licensing?
 

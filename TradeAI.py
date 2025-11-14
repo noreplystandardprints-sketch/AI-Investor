@@ -25,7 +25,8 @@ from datetime import datetime
 from license_tracker import (
     issue_license, verify_license, activate_license, 
     list_licenses, revoke_license, get_license_status,
-    _setup_admin, _verify_admin
+    _setup_admin, _verify_admin, generate_commercial_licenses,
+    verify_license, verify_regular_license, issue_regular_license, LicenseStatus
 )
 
 # Optional IBKR integration via ib_insync
@@ -1166,23 +1167,51 @@ def _prompt_choice(prompt: str, choices: list[str], default: str):
 # ===== Commercial License Management =====
 
 def handle_license_issue(company_name, contact_email, use_case, expiration_days, max_instances):
-    """Issue a new commercial license."""
-    if not company_name or not contact_email or not use_case:
-        print("Error: --company-name, --contact-email, and --use-case required for issuing license")
-        return
-    license_id, password = issue_license(
-        company_name=company_name,
-        contact_email=contact_email,
-        commercial_use_case=use_case,
-        expiration_days=expiration_days,
-        max_instances=max_instances
-    )
-    print(f"\n🔐 NEW LICENSE CREDENTIALS (share securely via email):")
-    print(f"   License ID: {license_id}")
-    print(f"   Password:   {password}\n")
+    """Issue a new license (commercial or regular)."""
+    print("\n--- Issue New License ---")
+    license_choice = input("Issue (C)ommercial or (R)egular license? [C/R]: ").strip().upper()
+
+    if license_choice == 'C':
+        if not company_name or not contact_email or not use_case:
+            print("Error: --company-name, --contact-email, and --use-case required for issuing commercial license")
+            return
+        license_id, password, msg = issue_license(
+            company_name=company_name,
+            contact_email=contact_email,
+            commercial_use_case=use_case,
+            expiration_days=expiration_days,
+            max_instances=max_instances,
+            license_type=LicenseType.COMMERCIAL
+        )
+        if license_id:
+            print(f"\n🔐 NEW COMMERCIAL LICENSE CREDENTIALS (share securely via email):")
+            print(f"   License ID: {license_id}")
+            print(f"   Password:   {password}\n")
+        else:
+            print(msg)
+    elif license_choice == 'R':
+        contact_email_reg = input("Enter contact email for regular license: ").strip()
+        use_case_reg = input("Enter use case for regular license: ").strip()
+        expiration_days_reg = _prompt_int("Enter expiration days (e.g., 30 for 30 days)", 30)
 
 
-from license_tracker import verify_license
+        if license_id:
+            print(f"\n🔐 NEW REGULAR LICENSE CREDENTIALS (share securely):")
+            print(f"   License ID: {license_id}")
+            print(f"   Password:   {password}\n")
+        else:
+            print(msg)
+    else:
+        print("Invalid license type choice.")
+
+def handle_generate_preset_licenses():
+    """Generate preset commercial licenses and export to Excel."""
+    print("\n--- Generate Preset Commercial Licenses ---")
+    admin_username = input("Enter admin username: ").strip()
+    admin_password = input("Enter admin password: ").strip()
+
+    
+
 
 def handle_license_verify():
     """Verify a commercial license."""
@@ -1940,24 +1969,67 @@ def do_ibkr_ai_bot_auto(watchlist: list[str], save_file: str, buy_pct: float, se
         print("Session saved & stopped.")
 
 
+from license_tracker import verify_license, verify_regular_license, LicenseType, LicenseStatus
+
+def _verify_license_and_set_access():
+    print("\n=== License Verification ===")
+    license_input = input("Enter License ID/Code (or leave blank to proceed without full access): ").strip()
+    if not license_input:
+        print("Proceeding without a verified license. Some features may be restricted.")
+        return False, None, None
+
+    # Attempt commercial license verification first
+    password = input("Enter License Password (if applicable, otherwise leave blank): ").strip()
+    commercial_status, commercial_type, commercial_record = verify_license(license_input, password)
+
+    if commercial_status == LicenseStatus.VALID:
+        print(f"✅ Commercial License verified: {commercial_type.value.capitalize()} License")
+        return True, commercial_type, commercial_record
+    
+    # If not a valid commercial license, try regular license verification
+    regular_status, regular_record = verify_regular_license(license_input)
+
+    if regular_status == LicenseStatus.VALID:
+        print(f"✅ Regular License verified")
+        return True, LicenseType.REGULAR, regular_record
+    else:
+        print(f"❌ License verification failed. Status: Commercial: {commercial_status.value}, Regular: {regular_status.value}. Some features may be restricted.")
+        return False, None, None
+
 def run_cli_menu():
     global IBKR_ENABLED, IBKR_EXECUTE, IBKR_HOST, IBKR_PORT, IBKR_CLIENT_ID
+    is_licensed, current_license_type, current_license_record = _verify_license_and_set_access()
+
     while True:
         print("\n=== Trading Bot Menu ===")
-        print("1) Save market knowledge")
-        print("2) Run customizable research session")
-        print("3) Resimulate trading")
-        print("4) Live dashboard (prices & P&L)")
-        print("5) Paper trading account")
-        print("6) Trade permissions")
-        print("7) IBKR settings")
-        print("8) IBKR AI bot")
-        print("9) Commercial License Verification")
-        print("10) Exit")
-        choice = input("Select an option [1-10]: ").strip()
+        if is_licensed:
+            print("1) Save market knowledge")
+            print("2) Run customizable research session")
+            print("3) Resimulate trading")
+            print("4) Live dashboard (prices & P&L)")
+            print("5) Paper trading account")
+            print("6) Trade permissions")
+            print("7) IBKR settings")
+            print("8) IBKR AI bot")
+            print("9) Generate Commercial Licenses")
+            print("10) Generate Regular Licenses")
+            print("11) Exit")
+            choice = input("Select an option [1-11]: ").strip()
+        else:
+            print("Access to most features is restricted without a valid license.")
+            print("9) Exit")
+            choice = input("Select an option [9]: ").strip()
+
+        if not is_licensed and choice in [str(i) for i in range(1, 9)]:
+            print("Invalid choice. Features 1-8 are for licensed users only. Please select 9.")
+            continue
+
+        if choice == "9":
+            break
+
         if choice == "1":
             tickers_in = _prompt_str("Tickers (comma-separated)", "SPY")
-            tickers = _parse_tickers_arg(tickers_in)
+            tickers = _parse_arg_tickers(tickers_in)
             start = _prompt_str("Start date", "2010-01-01")
             end = _prompt_str("End date", "2019-12-31")
             window_size = _prompt_int("Window size", 30)
@@ -1965,7 +2037,7 @@ def run_cli_menu():
             do_save_knowledge(tickers, start, end, window_size, fmt)
         elif choice == "2":
             tickers_in = _prompt_str("Tickers (comma-separated)", "SPY")
-            tickers = _parse_tickers_arg(tickers_in)
+            tickers = _parse_arg_tickers(tickers_in)
             start = _prompt_str("Start date", "2010-01-01")
             end = _prompt_str("End date", "2019-12-31")
             window_size = _prompt_int("Window size", 30)
@@ -1975,11 +2047,11 @@ def run_cli_menu():
             do_wall_clock_research(tickers, start, end, window_size, minutes, interval, fmt)
         elif choice == "3":
             tickers_in = _prompt_str("Tickers (comma-separated)", "SPY")
-            tickers = _parse_tickers_arg(tickers_in)
+            tickers = _parse_arg_tickers(tickers_in)
             do_resimulate(tickers)
         elif choice == "4":
             tickers_in = _prompt_str("Tickers (comma-separated)", "AAPL")
-            tickers = _parse_tickers_arg(tickers_in)
+            tickers = _parse_arg_tickers(tickers_in)
             positions_in = _prompt_str("Positions (TICKER:QTY:AVGCOST, optional)", ",".join([f"{t}:0:0" for t in tickers]))
             poll = _prompt_int("Poll interval (seconds)", 1)
             compact_choice = _prompt_choice("Compact output?", ["yes", "no"], "yes")
@@ -2022,7 +2094,7 @@ def run_cli_menu():
                 do_paper_live(poll_interval=float(poll))
             elif op == "ai":
                 tickers_in = _prompt_str("Tickers (comma-separated)", "AAPL")
-                tickers = _parse_tickers_arg(tickers_in)
+                tickers = _parse_arg_tickers(tickers_in)
                 poll = _prompt_int("Poll interval (seconds)", 5)
                 trade_shares = _prompt_int("Trade shares per action", 1)
                 print("Starting AI control of paper account. Press Ctrl+C to stop.")
@@ -2102,12 +2174,16 @@ def run_cli_menu():
                 print("Starting IBKR PPO AI bot. Press Ctrl+C to stop.")
                 do_ibkr_ai_bot_ppo(watchlist, save_file, max_order_shares, poll_interval)
         elif choice == "9":
-            handle_license_verify()
+            handle_generate_preset_licenses()
         elif choice == "10":
-            print("Goodbye.")
+            admin_user = _prompt_str("Admin Username", "")
+            admin_pass = _prompt_str("Admin Password", "")
+            license_code, msg = issue_regular_license(expiration_days=50, admin_username=admin_user, admin_password=admin_pass)
+            print(msg)
+        elif choice == "11":
             break
         else:
-            print("Invalid choice. Please select 1-10.")
+            print("Invalid choice. Please try again.")
 
 
 # --- Market Research & Knowledge ---
