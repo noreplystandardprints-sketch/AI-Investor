@@ -497,13 +497,37 @@ Contributions welcome! Areas for enhancement:
 
 ## License
 
+### Dual-Licensing Model
+
+AI-Investor is available under a **dual-licensing model**:
+
+#### 1. CC BY-NC 4.0 (Free License)
+
 This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International
-license (CC BY-NC 4.0). You are free to share and adapt the material provided you give appropriate
-credit, provide a link to the license, and indicate if changes were made. You may not use the
-material for commercial purposes.
+license (CC BY-NC 4.0) for non-commercial use. You are free to share and adapt the material provided you give appropriate
+credit, provide a link to the license, and indicate if changes were made. 
+
+**Non-commercial use includes**: research, personal projects, educational purposes, and open-source contributions.
+
+**You may NOT use the material for commercial purposes under this license.**
 
 Full license text is available in the `LICENSE` file. For details see:
 https://creativecommons.org/licenses/by-nc/4.0/
+
+#### 2. Commercial License (Paid)
+
+To use AI-Investor for **commercial purposes**, you must purchase a commercial license.
+
+**Commercial use includes**: trading with revenue intent, selling services/products that incorporate AI-Investor,
+or any use that generates commercial benefit.
+
+For commercial licensing inquiries, see `COMMERCIAL_LICENSE.md` or contact the project maintainers.
+
+### Why Dual-Licensing?
+
+- **Community-friendly**: Free for open-source and educational use
+- **Sustainable**: Commercial users support ongoing development
+- **Flexible**: Choose the license that fits your use case
 
 ## Disclaimer
 
