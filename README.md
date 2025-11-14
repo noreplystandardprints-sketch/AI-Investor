@@ -523,6 +523,15 @@ or any use that generates commercial benefit.
 
 For commercial licensing inquiries, see `COMMERCIAL_LICENSE.md` or contact the project maintainers.
 
+#### 3. Early Access Request (Free, Non-Commercial)
+
+Need the code before public release? You can request early access for non-commercial use:
+
+- **Process**: Submit a request via [GitHub Discussions](https://github.com/noreplystandardprints-sketch/AI-Investor/discussions)
+- **Timeline**: Review within 5-7 business days
+- **Eligibility**: Research, education, open-source projects, non-profits
+- **Details**: See `ACCESS_REQUEST.md` for the full request template
+
 ### Why Dual-Licensing?
 
 - **Community-friendly**: Free for open-source and educational use

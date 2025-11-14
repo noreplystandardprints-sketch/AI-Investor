@@ -39,6 +39,24 @@ Commercial licensing terms are negotiated on a case-by-case basis depending on:
 - Revenue model
 - Support requirements
 
+## Requesting Free Access (Non-Commercial)
+
+If you need access to the full code for **non-commercial purposes** but cannot wait for public release, you can request early access:
+
+1. **Open a GitHub Discussion** in the [AI-Investor repository](https://github.com/noreplystandardprints-sketch/AI-Investor/discussions)
+2. **Use the "Request Access" category** and fill out the template with:
+   - Your name and organization
+   - Intended use case (research, education, open-source project, etc.)
+   - Why you need early access
+   - Confirmation you agree to CC BY-NC 4.0 terms
+
+3. **Await approval** — Maintainers will review within 5-7 business days
+4. **Upon approval** — You'll receive access instructions via the discussion thread
+
+### Access Request Template
+
+See `ACCESS_REQUEST.md` for the full template.
+
 ## Dual-Licensing Benefits
 
 ### For Users:
