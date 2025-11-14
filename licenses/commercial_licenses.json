@@ -1,0 +1,20 @@
+{
+  "licenses": {
+    "AI-INV-F61DBF108751": {
+      "license_id": "AI-INV-F61DBF108751",
+      "company_name": "TestCorp",
+      "contact_email": "test@example.com",
+      "commercial_use_case": "Testing",
+      "issued_date": "2025-11-14T07:07:08.420619",
+      "expiration_date": "2026-11-14T07:07:08.420631",
+      "status": "active",
+      "max_instances": 1,
+      "password_hash": "72189dd43daea473339437faa243f10097e93d4b06182fa6bd853de1ab175db2",
+      "salt": "45451db4f6796f70a5ad595a9eb82dcb",
+      "activations": 0
+    }
+  },
+  "metadata": {
+    "last_updated": "2025-11-14T07:07:08.420680"
+  }
+}

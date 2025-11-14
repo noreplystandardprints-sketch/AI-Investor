@@ -24,7 +24,8 @@ from typing import Protocol, Optional
 from datetime import datetime
 from license_tracker import (
     issue_license, verify_license, activate_license, 
-    list_licenses, revoke_license, get_license_status
+    list_licenses, revoke_license, get_license_status,
+    _setup_admin, _verify_admin
 )
 
 # Optional IBKR integration via ib_insync
@@ -1249,9 +1250,11 @@ def parse_cli_args():
     parser.add_argument("--ib-exec", action="store_true", help="Execute orders on IBKR paper account for buys/sells")
     parser.add_argument("--broker", choices=["mock", "ibkr"], default="mock", help="Select broker backend: mock (simulation) or ibkr (live)")
     # Commercial license management options
-    parser.add_argument("--license-action", choices=["issue", "verify", "list", "revoke", "status"], help="Commercial license management action")
+    parser.add_argument("--license-action", choices=["admin-init", "issue", "verify", "list", "revoke", "status"], help="Commercial license management action")
     parser.add_argument("--license-id", type=str, help="Commercial license ID (for verify/status/revoke)")
     parser.add_argument("--license-password", type=str, help="Commercial license password (for verify/status)")
+    parser.add_argument("--admin-username", type=str, help="Admin username (for issue/revoke/list)")
+    parser.add_argument("--admin-password", type=str, help="Admin password (for issue/revoke/list)")
     parser.add_argument("--company-name", type=str, help="Company name (for issue)")
     parser.add_argument("--contact-email", type=str, help="Contact email (for issue)")
     parser.add_argument("--use-case", type=str, help="Commercial use case description (for issue)")

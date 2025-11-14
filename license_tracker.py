@@ -3,6 +3,11 @@ Commercial License Tracking System for AI-Investor
 
 Manages commercial license issuance, storage, and verification.
 License data stored in JSON with hashed passwords for security.
+
+Admin Authentication:
+- Only admin users can issue, revoke, or list licenses
+- Admin credentials stored separately in admin_credentials.json
+- All admin actions are logged
 """
 
 import json
@@ -10,16 +15,89 @@ import os
 import hashlib
 import secrets
 import uuid
+import logging
 from datetime import datetime, timedelta
 from typing import Optional, Dict, Tuple
 
 LICENSE_DATABASE = "licenses/commercial_licenses.json"
+ADMIN_CREDENTIALS = "licenses/admin_credentials.json"
+ADMIN_LOG = "licenses/admin_actions.log"
 LICENSE_DIR = "licenses"
+
+# Setup logging
+logging.basicConfig(
+    filename=ADMIN_LOG,
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 
 def _ensure_license_dir():
     """Ensure licenses directory exists."""
     os.makedirs(LICENSE_DIR, exist_ok=True)
+
+
+def _setup_admin() -> Tuple[str, str]:
+    """
+    Initialize admin credentials (one-time setup).
+    Returns: (admin_username, admin_password)
+    """
+    _ensure_license_dir()
+    
+    if os.path.exists(ADMIN_CREDENTIALS):
+        print("Admin already initialized")
+        return None, None
+    
+    admin_user = input("Set admin username: ").strip()
+    admin_pass = input("Set admin password (will be hashed): ").strip()
+    
+    if not admin_user or not admin_pass:
+        print("Admin username and password required")
+        return None, None
+    
+    admin_hash, admin_salt = _hash_password(admin_pass)
+    
+    admin_data = {
+        "username": admin_user,
+        "password_hash": admin_hash,
+        "salt": admin_salt,
+        "created": datetime.now().isoformat()
+    }
+    
+    with open(ADMIN_CREDENTIALS, 'w') as f:
+        json.dump(admin_data, f, indent=2)
+    os.chmod(ADMIN_CREDENTIALS, 0o600)
+    
+    logging.info(f"Admin initialized: {admin_user}")
+    print(f"✅ Admin credentials saved securely")
+    return admin_user, admin_pass
+
+
+def _verify_admin(username: str, password: str) -> bool:
+    """Verify admin credentials."""
+    if not os.path.exists(ADMIN_CREDENTIALS):
+        print("❌ Admin not initialized. Run --license-action admin-init first")
+        return False
+    
+    try:
+        with open(ADMIN_CREDENTIALS, 'r') as f:
+            admin_data = json.load(f)
+        
+        if admin_data.get("username") != username:
+            logging.warning(f"Failed admin login attempt: wrong username {username}")
+            return False
+        
+        provided_hash, _ = _hash_password(password, admin_data["salt"])
+        if provided_hash != admin_data["password_hash"]:
+            logging.warning(f"Failed admin login attempt: wrong password for {username}")
+            return False
+        
+        logging.info(f"Admin authenticated: {username}")
+        return True
+    except Exception as e:
+        logging.error(f"Admin verification error: {e}")
+        print(f"Error verifying admin: {e}")
+        return False
 
 
 def _hash_password(password: str, salt: str = None) -> Tuple[str, str]:
@@ -59,12 +137,14 @@ def issue_license(
     contact_email: str,
     commercial_use_case: str,
     expiration_days: int = 365,
-    max_instances: int = 1
-) -> Tuple[str, str]:
+    max_instances: int = 1,
+    admin_username: str = None,
+    admin_password: str = None
+) -> Tuple[Optional[str], Optional[str], str]:
     """
-    Issue a new commercial license.
+    Issue a new commercial license (ADMIN ONLY).
     
-    Returns: (license_id, password)
+    Returns: (license_id, password, message)
     
     Args:
         company_name: Name of company/individual
@@ -72,40 +152,60 @@ def issue_license(
         commercial_use_case: Description of intended commercial use
         expiration_days: Days until license expires (default 365)
         max_instances: Maximum number of instances allowed
+        admin_username: Admin username for authentication
+        admin_password: Admin password for authentication
     """
-    _ensure_license_dir()
-    
-    # Generate unique license ID and password
-    license_id = f"AI-INV-{uuid.uuid4().hex[:12].upper()}"
-    password = secrets.token_urlsafe(16)
-    password_hash, salt = _hash_password(password)
-    
-    # Create license record
-    license_data = {
-        "license_id": license_id,
-        "company_name": company_name,
-        "contact_email": contact_email,
-        "commercial_use_case": commercial_use_case,
-        "issued_date": datetime.now().isoformat(),
-        "expiration_date": (datetime.now() + timedelta(days=expiration_days)).isoformat(),
-        "status": "active",
-        "max_instances": max_instances,
-        "password_hash": password_hash,
-        "salt": salt,
-        "activations": 0,
-    }
-    
-    # Save to database
-    data = _load_licenses()
-    data["licenses"][license_id] = license_data
-    data["metadata"]["last_updated"] = datetime.now().isoformat()
-    _save_licenses(data)
-    
-    print(f"✅ License issued: {license_id}")
-    print(f"Company: {company_name}")
-    print(f"Expiration: {license_data['expiration_date']}")
-    
-    return license_id, password
+    try:
+        # Verify admin
+        if not admin_username or not admin_password:
+            return None, None, "❌ Admin credentials required"
+        
+        if not _verify_admin(admin_username, admin_password):
+            return None, None, "❌ Admin authentication failed"
+        
+        # Validate inputs
+        if not all([company_name, contact_email, commercial_use_case]):
+            return None, None, "❌ company_name, contact_email, and use_case are required"
+        
+        if expiration_days < 1 or max_instances < 1:
+            return None, None, "❌ expiration_days and max_instances must be >= 1"
+        
+        _ensure_license_dir()
+        
+        # Generate unique license ID and password
+        license_id = f"AI-INV-{uuid.uuid4().hex[:12].upper()}"
+        password = secrets.token_urlsafe(16)
+        password_hash, salt = _hash_password(password)
+        
+        # Create license record
+        license_data = {
+            "license_id": license_id,
+            "company_name": company_name,
+            "contact_email": contact_email,
+            "commercial_use_case": commercial_use_case,
+            "issued_date": datetime.now().isoformat(),
+            "expiration_date": (datetime.now() + timedelta(days=expiration_days)).isoformat(),
+            "status": "active",
+            "max_instances": max_instances,
+            "password_hash": password_hash,
+            "salt": salt,
+            "activations": 0,
+        }
+        
+        # Save to database
+        data = _load_licenses()
+        data["licenses"][license_id] = license_data
+        data["metadata"]["last_updated"] = datetime.now().isoformat()
+        _save_licenses(data)
+        
+        msg = f"✅ License issued: {license_id}"
+        logging.info(f"License issued by {admin_username}: {license_id} for {company_name}")
+        
+        return license_id, password, msg
+    except Exception as e:
+        error_msg = f"❌ Error issuing license: {str(e)}"
+        logging.error(error_msg)
+        return None, None, error_msg
 
 
 def verify_license(license_id: str, password: str) -> Tuple[bool, Optional[Dict]]:
@@ -220,20 +320,32 @@ def list_licenses(show_passwords: bool = False) -> str:
     return output
 
 
-def revoke_license(license_id: str) -> bool:
-    """Revoke a commercial license."""
-    data = _load_licenses()
-    
-    if license_id not in data.get("licenses", {}):
-        print(f"License {license_id} not found")
-        return False
-    
-    data["licenses"][license_id]["status"] = "revoked"
-    data["licenses"][license_id]["revoked_date"] = datetime.now().isoformat()
-    _save_licenses(data)
-    
-    print(f"✅ License {license_id} revoked")
-    return True
+def revoke_license(license_id: str, admin_username: str = None, admin_password: str = None) -> Tuple[bool, str]:
+    """Revoke a commercial license (ADMIN ONLY)."""
+    try:
+        # Verify admin
+        if not admin_username or not admin_password:
+            return False, "❌ Admin credentials required"
+        
+        if not _verify_admin(admin_username, admin_password):
+            return False, "❌ Admin authentication failed"
+        
+        data = _load_licenses()
+        
+        if license_id not in data.get("licenses", {}):
+            return False, f"❌ License {license_id} not found"
+        
+        data["licenses"][license_id]["status"] = "revoked"
+        data["licenses"][license_id]["revoked_date"] = datetime.now().isoformat()
+        _save_licenses(data)
+        
+        msg = f"✅ License {license_id} revoked"
+        logging.info(f"License revoked by {admin_username}: {license_id}")
+        return True, msg
+    except Exception as e:
+        error_msg = f"❌ Error revoking license: {str(e)}"
+        logging.error(error_msg)
+        return False, error_msg
 
 
 def get_license_status(license_id: str, password: str) -> str:
