@@ -1182,10 +1182,15 @@ def handle_license_issue(company_name, contact_email, use_case, expiration_days,
     print(f"   Password:   {password}\n")
 
 
-def handle_license_verify(license_id, license_password):
+from license_tracker import verify_license
+
+def handle_license_verify():
     """Verify a commercial license."""
+    license_id = input("Enter License ID: ").strip()
+    license_password = input("Enter License Password: ").strip()
+
     if not license_id or not license_password:
-        print("Error: --license-id and --license-password required for verification")
+        print("Error: License ID and License Password are required for verification")
         return
     is_valid, record = verify_license(license_id, license_password)
     if is_valid:
@@ -1947,8 +1952,9 @@ def run_cli_menu():
         print("6) Trade permissions")
         print("7) IBKR settings")
         print("8) IBKR AI bot")
-        print("9) Exit")
-        choice = input("Select an option [1-9]: ").strip()
+        print("9) Commercial License Verification")
+        print("10) Exit")
+        choice = input("Select an option [1-10]: ").strip()
         if choice == "1":
             tickers_in = _prompt_str("Tickers (comma-separated)", "SPY")
             tickers = _parse_tickers_arg(tickers_in)
@@ -2096,10 +2102,12 @@ def run_cli_menu():
                 print("Starting IBKR PPO AI bot. Press Ctrl+C to stop.")
                 do_ibkr_ai_bot_ppo(watchlist, save_file, max_order_shares, poll_interval)
         elif choice == "9":
+            handle_license_verify()
+        elif choice == "10":
             print("Goodbye.")
             break
         else:
-            print("Invalid choice. Please select 1-9.")
+            print("Invalid choice. Please select 1-10.")
 
 
 # --- Market Research & Knowledge ---
@@ -2767,7 +2775,7 @@ if __name__ == "__main__":
     
     # Choose broker according to --broker flag or interactive prompt
     BROKER = select_broker(args)
-    if getattr(args, "menu", False):
+    if getattr(args, "menu", False) or (not getattr(args, "action", None) and not getattr(args, "license_action", None) and not getattr(args, "paper_op", None)):
         run_cli_menu()
     if getattr(args, "action", None):
         act_tickers = _parse_tickers_arg(getattr(args, "tickers", None))

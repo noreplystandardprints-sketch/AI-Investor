@@ -1,0 +1,1 @@
+ALL_TICKERS = ["SPY", "AAPL", "MSFT", "GOOGL"]
